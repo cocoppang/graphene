@@ -1,9 +1,9 @@
 manifests = memcached.manifest
 SRCDIR = memcached-master
 HOST = $(firstword $(shell ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' -m 1 | cut -d: -f2))
-PORT = 8000
+PORT = 11211
 CORES = 4
-MAXMEM = 256
+MAXMEM = 2048
 MAXTHREADS = 16
 
 target = memcached $(manifests)
@@ -20,16 +20,16 @@ extra_rules = \
 level = ../../
 include ../../Makefile
 
-master.zip:
-	wget https://github.com/memcached/memcached/archive/master.zip
-
-$(SRCDIR)/configure: master.zip
-	unzip master.zip
-	cd $(SRCDIR) && ./autogen.sh
-
-$(SRCDIR)/memcached: $(SRCDIR)/configure
-	cd $(SRCDIR) && ./configure
-	cd $(SRCDIR) && make
+#master.zip:
+#	wget https://github.com/memcached/memcached/archive/master.zip
+#
+#$(SRCDIR)/configure: master.zip
+#	unzip master.zip
+#	cd $(SRCDIR) && ./autogen.sh
+#
+#$(SRCDIR)/memcached: $(SRCDIR)/configure
+#	cd $(SRCDIR) && ./configure
+#	cd $(SRCDIR) && make
 
 memcached: $(SRCDIR)/memcached
 	cp -f $< $@
